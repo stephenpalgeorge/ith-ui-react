@@ -4,19 +4,25 @@ import { SearchInput } from './SearchInput';
 import { SearchTerm } from './SearchTerm';
 import { Submit } from './Submit';
 
+import { useSingleLookup } from '../hooks';
+
 interface Props {
-  handleLookup?(searchBy: string, searchTerm: string): void
+  handleLookup?(searchBy: string, searchTerm: string): void,
+  queryUrl?: string
 }
 
-export const Lookup = ({ handleLookup }: Props) => {
+export const Lookup = ({ handleLookup, queryUrl = 'http://localhost:4545' }: Props) => {
+  // the different types of search that can be performed:
   const options = ['constituencies', 'names', 'posts', 'postcodes'];
-
+  // controlled form variables:
   const [inputValue, setInputValue] = React.useState<string>('');
   const [termValue, setTermValue] = React.useState<string>(options[0]);
 
-
-  const handleSubmit = (searchBy: string, searchFor: string): void => {
+  // default button click handler, will be overwritten by whatever is
+  // passed as the `handleLookup` prop:
+  const handleSubmit = async (searchBy: string, searchFor: string): Promise<any> => {
     console.log(searchBy, searchFor);
+    await useSingleLookup(queryUrl, searchBy, searchFor);
   }
 
   return <div className="lookup">
