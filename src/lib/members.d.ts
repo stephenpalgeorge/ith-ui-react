@@ -4,6 +4,12 @@ export interface MPContact {
   links: string[]
 }
 
+export interface LookupParams {
+  url?: string,
+  searchBy: string,
+  searchFor: string,
+}
+
 export interface Member {
   "@Member_Id": string,
   "@Dods_Id": string,

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { LookupParams, Member, Clean_Member } from '../lib/members';
 
 import { SearchInput } from './SearchInput';
 import { SearchTerm } from './SearchTerm';
@@ -7,11 +8,11 @@ import { Submit } from './Submit';
 import { useSingleLookup } from '../hooks';
 
 interface Props {
-  handleLookup?(searchBy: string, searchTerm: string): void,
-  queryUrl?: string
+  queryUrl?: string,
+  callback?(mp: Clean_Member|Member): void,
 }
 
-export const Lookup = ({ handleLookup, queryUrl = 'http://localhost:4545' }: Props) => {
+export const Lookup = ({ callback, queryUrl = 'http://localhost:4545' }: Props) => {
   // the different types of search that can be performed:
   const options = ['constituencies', 'names', 'posts', 'postcodes'];
   // controlled form variables:
@@ -20,19 +21,21 @@ export const Lookup = ({ handleLookup, queryUrl = 'http://localhost:4545' }: Pro
 
   // default button click handler, will be overwritten by whatever is
   // passed as the `handleLookup` prop:
-  const handleSubmit = async (searchBy: string, searchFor: string): Promise<any> => {
-    console.log(searchBy, searchFor);
-    await useSingleLookup(queryUrl, searchBy, searchFor);
+  const handleSubmit = async ({ url = queryUrl, searchBy, searchFor }: LookupParams): Promise<any> => {
+    const mp = await useSingleLookup(url, searchBy, searchFor);
+    if (callback) callback(mp);
+    else console.log(mp);
   }
 
   return <div className="lookup">
     <SearchTerm options={options} value={termValue} handleChange={setTermValue} />
-    <SearchInput value={inputValue} handleChange={setInputValue} />
+    <SearchInput value={inputValue} handleChange={setInputValue} searchTerm={ termValue } />
     <Submit
       text="Find your MP"
       searchTerm={ termValue }
       searchValue={ inputValue }
-      handleSubmit={ handleLookup || handleSubmit }
+      handleSubmit={ handleSubmit }
+      queryUrl={ queryUrl }
     />
   </div>
 }
