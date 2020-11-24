@@ -1,18 +1,22 @@
 import * as React from 'react';
-import { LookupParams, Member, Clean_Member } from '../lib/members';
+import { LookupParams, Member, Clean_Member } from '../../lib/members';
 
-import { SearchInput } from './SearchInput';
-import { SearchTerm } from './SearchTerm';
+import { SearchInput, SearchTerm } from '../shared';
 import { Submit } from './Submit';
 
-import { useSingleLookup } from '../hooks';
+import { useSingleLookup } from '../../hooks';
 
 interface Props {
   queryUrl?: string,
+  buttonText?: string,
   callback?(mp: Clean_Member|Member): void,
 }
 
-export const Lookup = ({ callback, queryUrl = 'http://localhost:4545' }: Props) => {
+export const Lookup = ({
+  buttonText = 'Find your MP',
+  callback,
+  queryUrl = 'http://localhost:4545'
+}: Props) => {
   // the different types of search that can be performed:
   const options = ['constituencies', 'names', 'posts', 'postcodes'];
   // controlled form variables:
@@ -31,7 +35,7 @@ export const Lookup = ({ callback, queryUrl = 'http://localhost:4545' }: Props) 
     <SearchTerm options={options} value={termValue} handleChange={setTermValue} />
     <SearchInput value={inputValue} handleChange={setInputValue} searchTerm={ termValue } />
     <Submit
-      text="Find your MP"
+      text={ buttonText }
       searchTerm={ termValue }
       searchValue={ inputValue }
       handleSubmit={ handleSubmit }

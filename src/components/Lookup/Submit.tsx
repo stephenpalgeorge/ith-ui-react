@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { LookupParams } from '../lib/members';
+import { LookupParams } from '../../lib/members';
 
 interface Props {
   text: string,
