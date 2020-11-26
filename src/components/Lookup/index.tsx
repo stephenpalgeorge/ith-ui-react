@@ -5,10 +5,11 @@ import { SearchInput, SearchTerm } from '../shared';
 import { Submit } from './Submit';
 
 import { useSingleLookup } from '../../hooks';
+import { constituencyList, mpsList } from '../../_data';
 
 interface Props {
-  queryUrl?: string,
   buttonText?: string,
+  queryUrl?: string,
   callback?(mp: Clean_Member|Member): void,
 }
 
@@ -19,6 +20,10 @@ export const Lookup = ({
 }: Props) => {
   // the different types of search that can be performed:
   const options = ['constituencies', 'names', 'posts', 'postcodes'];
+  const lists = {
+    constituencies: constituencyList,
+    names: mpsList,
+  }
   // controlled form variables:
   const [inputValue, setInputValue] = React.useState<string>('');
   const [termValue, setTermValue] = React.useState<string>(options[0]);
@@ -33,7 +38,7 @@ export const Lookup = ({
 
   return <div className="lookup">
     <SearchTerm options={options} value={termValue} handleChange={setTermValue} />
-    <SearchInput value={inputValue} handleChange={setInputValue} searchTerm={ termValue } />
+    <SearchInput value={inputValue} handleChange={setInputValue} searchTerm={ termValue } list={lists[termValue]} />
     <Submit
       text={ buttonText }
       searchTerm={ termValue }

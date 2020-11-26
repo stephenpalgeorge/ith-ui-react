@@ -3,10 +3,11 @@ import * as React from 'react';
 interface Props {
   searchTerm: string,
   value: string,
+  list?: string[],
   handleChange(val: string): void
 }
 
-export const SearchInput = ({ value, handleChange, searchTerm }: Props) => {
+export const SearchInput = ({ value, handleChange, searchTerm, list = [] }: Props) => {
   let placeholderText = 'e.g. ';
   switch(searchTerm) {
     case 'constituencies':
@@ -26,12 +27,22 @@ export const SearchInput = ({ value, handleChange, searchTerm }: Props) => {
   }
 
   return (
-    <input
-      name="search-term"
-      id="lookup--search-term"
-      value={ value }
-      onChange={ ({target}) => handleChange(target.value) }
-      placeholder={ placeholderText }
-    />
+    <div className="input-wrapper">
+      <input
+        list="search-input--list"
+        name="search-term"
+        id="lookup--search-term"
+        value={ value }
+        onChange={ ({target}) => handleChange(target.value) }
+        placeholder={ placeholderText }
+      />
+
+      {
+        list.length > 0 &&
+        <datalist id="search-input--list">
+          { list.map(it => <option key={it} value={it} />) }
+        </datalist>
+      }
+    </div>
   );
 }
