@@ -1,2 +1,2 @@
-export { Lookup } from './components/Lookup';
-export { LookupForm } from './components/LookupForm';
+export { FullLookup } from './components/FullLookup';
+export { FullLookupForm } from './components/FullLookupForm';

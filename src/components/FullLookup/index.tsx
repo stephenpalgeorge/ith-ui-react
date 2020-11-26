@@ -15,7 +15,7 @@ interface Props {
   callback?(mp: Clean_Member|Member): void,
 }
 
-export const Lookup = ({
+export const FullLookup = ({
   buttonText = 'Find your MP',
   callback,
   inputLabel = 'Search for:',

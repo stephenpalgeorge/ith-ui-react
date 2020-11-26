@@ -13,7 +13,7 @@ interface Props {
   callback?(mp: Clean_Member|Member): void
 }
 
-export const LookupForm = ({
+export const FullLookupForm = ({
   buttonText = "Find my MP",
   callback,
   inputLabel = 'Search for:',
