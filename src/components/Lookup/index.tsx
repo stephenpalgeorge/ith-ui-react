@@ -9,6 +9,8 @@ import { constituencyList, mpsList } from '../../_data';
 
 interface Props {
   buttonText?: string,
+  inputLabel?: string,
+  selectLabel?: string,
   queryUrl?: string,
   callback?(mp: Clean_Member|Member): void,
 }
@@ -16,6 +18,8 @@ interface Props {
 export const Lookup = ({
   buttonText = 'Find your MP',
   callback,
+  inputLabel = 'Search for:',
+  selectLabel = 'Search in:',
   queryUrl = 'http://localhost:4545'
 }: Props) => {
   // the different types of search that can be performed:
@@ -41,15 +45,21 @@ export const Lookup = ({
   }
 
   return <div className="lookup">
-    <SearchTerm options={options} value={termValue} handleChange={setTermValue} />
-    <SearchInput value={inputValue} handleChange={setInputValue} searchTerm={ termValue } list={lists[termValue]} />
+    <SearchTerm labelText={ selectLabel } options={options} value={termValue} handleChange={setTermValue} />
+    <SearchInput
+      value={ inputValue }
+      handleChange={ setInputValue }
+      searchTerm={ termValue }
+      list={ lists[termValue] }
+      labelText={ inputLabel }
+    />
     <Submit
       text={ buttonText }
       searchTerm={ termValue }
       searchValue={ inputValue }
       handleSubmit={ handleSubmit }
       queryUrl={ queryUrl }
-      isDisabled={ inputValue === '' || loading}
+      isDisabled={ inputValue === '' || loading }
     />
   </div>
 }

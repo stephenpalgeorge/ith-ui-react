@@ -7,6 +7,8 @@ import { constituencyList, mpsList } from '../../_data';
 
 interface Props {
   buttonText? : string,
+  inputLabel?: string,
+  selectLabel?: string,
   queryUrl?: string,
   callback?(mp: Clean_Member|Member): void
 }
@@ -14,13 +16,15 @@ interface Props {
 export const LookupForm = ({
   buttonText = "Find my MP",
   callback,
+  inputLabel = 'Search for:',
+  selectLabel = 'Search by:',
   queryUrl = 'http://localhost:4545'
 }: Props) => {
   const lists = {
     constituencies: constituencyList,
     names: mpsList,
   }
-  
+
   const [input, setInput] = React.useState<string>('');
   const [searchBy, setSearchBy] = React.useState<string>('');
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -36,9 +40,15 @@ export const LookupForm = ({
     setLoading(false);
     setInput('');
   }}>
-    <SearchTerm options={options} handleChange={setSearchBy} value={searchBy} />
-    <SearchInput searchTerm={searchBy} value={input} handleChange={setInput} list={ lists[searchBy] } />
-    <button type="submit" disabled={input === '' || loading}>
+    <SearchTerm labelText={ selectLabel } options={ options } handleChange={ setSearchBy } value={ searchBy } />
+    <SearchInput
+      searchTerm={ searchBy }
+      value={ input }
+      handleChange={ setInput }
+      list={ lists[searchBy] }
+      labelText={ inputLabel }
+    />
+    <button type="submit" disabled={ input === '' || loading }>
       { buttonText }
     </button>
   </form>
