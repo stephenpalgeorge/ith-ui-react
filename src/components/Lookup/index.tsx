@@ -27,13 +27,17 @@ export const Lookup = ({
   // controlled form variables:
   const [inputValue, setInputValue] = React.useState<string>('');
   const [termValue, setTermValue] = React.useState<string>(options[0]);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   // default button click handler, will be overwritten by whatever is
   // passed as the `handleLookup` prop:
   const handleSubmit = async ({ url = queryUrl, searchBy, searchFor }: LookupParams): Promise<any> => {
+    setLoading(true);
     const mp = await useSingleLookup(url, searchBy, searchFor);
     if (callback) callback(mp);
     else console.log(mp);
+    setInputValue('');
+    setLoading(false);
   }
 
   return <div className="lookup">
@@ -45,6 +49,7 @@ export const Lookup = ({
       searchValue={ inputValue }
       handleSubmit={ handleSubmit }
       queryUrl={ queryUrl }
+      isDisabled={ inputValue === '' || loading}
     />
   </div>
 }

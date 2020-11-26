@@ -2,6 +2,7 @@ import * as React from 'react';
 import { LookupParams } from '../../lib/members';
 
 interface Props {
+  isDisabled?: boolean,
   text: string,
   searchTerm: string,
   searchValue: string,
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export const Submit = ({
+  isDisabled = false,
   text,
   handleSubmit,
   searchTerm,
@@ -18,7 +20,7 @@ export const Submit = ({
 }: Props) => {
   return (
     <button
-      disabled={ searchValue.length === 0 }
+      disabled={ isDisabled }
       className="submit"
       onClick={ () => handleSubmit({
         url: queryUrl,
