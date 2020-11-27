@@ -5,19 +5,19 @@ import { SearchInput, Submit } from '../_shared';
 import { constituencyList, mpsList } from '../../_data';
 import { LookupParams, MemberResponse } from '../../lib/members';
 
-interface Props {
+interface MemberLookupProps {
+  callback?(mp: MemberResponse): void,
   searchBy: string,
   labelText?: string,
   queryUrl?: string,
-  callback?(mp: MemberResponse): void,
 }
 
-export const Lookup = ({
+const MemberLookup: React.FC<MemberLookupProps> = ({
   searchBy,
   labelText = "Search for:",
   queryUrl = "http://localhost:4545",
   callback,
-}: Props) => {
+}) => {
   const lists = {
     constituencies: constituencyList,
     names: mpsList,
@@ -34,14 +34,13 @@ export const Lookup = ({
     setLoading(false);
   }
 
-  console.log(searchBy);
-
   return <div className="lookup">
     <SearchInput
       value={ input }
       handleChange={ setInput }
       labelText={ labelText }
       list={ lists[searchBy] }
+      searchTerm={ searchBy }
     />
 
     <Submit
@@ -53,3 +52,5 @@ export const Lookup = ({
     />
   </div>
 }
+
+export default MemberLookup;

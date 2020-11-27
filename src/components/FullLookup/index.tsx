@@ -7,7 +7,7 @@ import { Submit } from '../_shared/Submit';
 import { useLookup } from '../../hooks';
 import { constituencyList, mpsList } from '../../_data';
 
-interface Props {
+interface FullLookupProps {
   buttonText?: string,
   inputLabel?: string,
   selectLabel?: string,
@@ -15,13 +15,13 @@ interface Props {
   callback?(mp: MemberResponse): void,
 }
 
-export const FullLookup = ({
+const FullLookup: React.FC<FullLookupProps> = ({
   buttonText = 'Find your MP',
   callback,
   inputLabel = 'Search for:',
   selectLabel = 'Search in:',
   queryUrl = 'http://localhost:4545'
-}: Props) => {
+}) => {
   // the different types of search that can be performed:
   const options = ['constituencies', 'names', 'posts', 'postcodes'];
   const lists = {
@@ -39,7 +39,7 @@ export const FullLookup = ({
     setLoading(true);
     const mp = await useLookup({ url, searchBy, searchFor });
     if (callback) callback(mp);
-    else console.log(mp);
+    console.log(mp);
     setInputValue('');
     setLoading(false);
   }
@@ -63,3 +63,5 @@ export const FullLookup = ({
     />
   </div>
 }
+
+export default FullLookup;

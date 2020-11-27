@@ -5,7 +5,7 @@ import { SearchInput, SearchTerm } from '../_shared';
 import { useLookup } from '../../hooks';
 import { constituencyList, mpsList } from '../../_data';
 
-interface Props {
+interface FullLookupFormProps {
   buttonText? : string,
   inputLabel?: string,
   selectLabel?: string,
@@ -13,13 +13,13 @@ interface Props {
   callback?(mp: Member): void
 }
 
-export const FullLookupForm = ({
+const FullLookupForm: React.FC<FullLookupFormProps> = ({
   buttonText = "Find my MP",
   callback,
   inputLabel = 'Search for:',
   selectLabel = 'Search by:',
   queryUrl = 'http://localhost:4545'
-}: Props) => {
+}) => {
   const lists = {
     constituencies: constituencyList,
     names: mpsList,
@@ -53,3 +53,5 @@ export const FullLookupForm = ({
     </button>
   </form>
 }
+
+export default FullLookupForm;
