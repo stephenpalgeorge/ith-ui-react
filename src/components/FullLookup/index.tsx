@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { LookupParams, Member, Clean_Member } from '../../lib/members';
+import { LookupParams, MemberResponse } from '../../lib/members';
 
-import { SearchInput, SearchTerm } from '../shared';
-import { Submit } from './Submit';
+import { SearchInput, SearchTerm } from '../_shared';
+import { Submit } from '../_shared/Submit';
 
-import { useSingleLookup } from '../../hooks';
+import { useLookup } from '../../hooks';
 import { constituencyList, mpsList } from '../../_data';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
   inputLabel?: string,
   selectLabel?: string,
   queryUrl?: string,
-  callback?(mp: Clean_Member|Member): void,
+  callback?(mp: MemberResponse): void,
 }
 
 export const FullLookup = ({
@@ -37,7 +37,7 @@ export const FullLookup = ({
   // passed as the `handleLookup` prop:
   const handleSubmit = async ({ url = queryUrl, searchBy, searchFor }: LookupParams): Promise<any> => {
     setLoading(true);
-    const mp = await useSingleLookup(url, searchBy, searchFor);
+    const mp = await useLookup({ url, searchBy, searchFor });
     if (callback) callback(mp);
     else console.log(mp);
     setInputValue('');

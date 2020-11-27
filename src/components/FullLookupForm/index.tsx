@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Clean_Member, Member } from '../../lib/members';
+import { Member } from '../../lib/members';
 
-import { SearchInput, SearchTerm } from '../shared';
-import { useSingleLookup } from '../../hooks';
+import { SearchInput, SearchTerm } from '../_shared';
+import { useLookup } from '../../hooks';
 import { constituencyList, mpsList } from '../../_data';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
   inputLabel?: string,
   selectLabel?: string,
   queryUrl?: string,
-  callback?(mp: Clean_Member|Member): void
+  callback?(mp: Member): void
 }
 
 export const FullLookupForm = ({
@@ -34,7 +34,7 @@ export const FullLookupForm = ({
   return <form onSubmit={async (e) => {
     e.preventDefault();
     setLoading(true);
-    const mp = await useSingleLookup(queryUrl, searchBy, input);
+    const mp = await useLookup({ url: queryUrl, searchBy, searchFor: input });
     if (callback) callback(mp);
     else console.log(mp);
     setLoading(false);

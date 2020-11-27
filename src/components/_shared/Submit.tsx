@@ -4,7 +4,7 @@ import { LookupParams } from '../../lib/members';
 interface Props {
   isDisabled?: boolean,
   text: string,
-  searchTerm: string,
+  searchTerm?: string,
   searchValue: string,
   handleSubmit(params: LookupParams): void,
   queryUrl: string
@@ -24,7 +24,7 @@ export const Submit = ({
       className="submit"
       onClick={ () => handleSubmit({
         url: queryUrl,
-        searchBy: searchTerm,
+        searchBy: searchTerm ? searchTerm : undefined,
         searchFor: searchValue
       })}
     >

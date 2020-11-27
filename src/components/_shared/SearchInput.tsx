@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 interface Props {
-  searchTerm: string,
+  searchTerm?: string,
   value: string,
   labelText: string,
   list?: string[],

@@ -1,47 +1,22 @@
-export interface MPContact {
-  phone: string[],
-  email: string[],
-  links: string[]
-}
-
 export interface LookupParams {
   url?: string,
-  searchBy: string,
+  searchBy?: string,
   searchFor: string,
 }
 
 export interface Member {
-  "@Member_Id": string,
-  "@Dods_Id": string,
-  "@Pims_Id": string,
-  "@Clerks_Id": string,
-  DisplayAs: string,
-  ListAs: string,
-  FullTitle: string,
-  LayingMinisterName: string,
-  DateOfBirth: string,
-  DateOfDeath: object,
-  Gender: string,
-  Party: object,
-  House: string,
-  MemberFrom: string,
-  HouseStartDate: string,
-  HouseEndDate: object,
-  CurrentStatus: object,
-  Contact: MPContact
+  id: number,
+  nameListAs: string,
+  nameDisplayAs: string,
+  nameFullTitle: string,
+  nameAddressAs: string,
+  latestParty: object,
+  gender: 'M'|'F',
+  latestHouseMembership: object,
+  thumbnailUrl: string,
 }
 
-export interface Clean_Member {
-  "@Member_Id": string,
-  DisplayAs: string,
-  ListAs: string,
-  FullTitle: string,
-  LayingMinisterName: string,
-  DateOfBirth: string,
-  Gender: string,
-  Party: object,
-  House: string,
-  MemberFrom: string,
-  HouseStartDate: string,
-  Contact: MPContact
+export interface MemberResponse extends Member {
+  portraitUrl: string,
+  Contact: object[],
 }

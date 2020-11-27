@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const SearchTerm = ({ handleChange, options, value, labelText }: Props) => {
-  return <div>
+  return <div className="input-wrapper">
     <label htmlFor="lookup--search-by">
       { labelText }
     </label>
