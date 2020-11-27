@@ -15,36 +15,36 @@ interface MemberLookupFormProps {
 
 const MemberLookupForm: React.FC<MemberLookupFormProps> = ({
   buttonText = "Find my MP",
+  callback,
   searchBy,
   labelText = "Search for:",
   queryUrl = "http://localhost:4545",
-  callback,
 }) => {
   const lists = {
     constituencies: constituencyList,
     names: mpsList,
   }
-
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [input, setInput] = React.useState<string>('');
+  const [inputValue, setInputValue] = React.useState<string>('');
 
-  return <form className="lookup" onSubmit={async e => {
+  return <form className="form__member-lookup" onSubmit={async e => {
     e.preventDefault();
     setLoading(true);
-    const mp: MemberResponse = await useLookup({ url: queryUrl, searchBy, searchFor: input });
+    const mp: MemberResponse = await useLookup({ url: queryUrl, searchBy, searchFor: inputValue });
     if (callback) callback(mp);
     else console.log(mp);
     setLoading(false);
+    setInputValue('');
   }}>
     <SearchInput
-      value={ input }
-      handleChange={ setInput }
-      labelText={ labelText }
-      list={ lists[searchBy] }
       searchTerm={ searchBy }
+      value={ inputValue }
+      labelText={ labelText }
+      handleChange={ setInputValue }
+      list={ lists[searchBy] }
     />
-
-    <button type="submit" disabled={ input.length === 0 || loading }>
+    
+    <button type="submit" disabled={ inputValue.length === 0 || loading }>
       { buttonText }
     </button>
   </form>
