@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { useLookup } from '../../hooks';
-import { SearchInput, Submit } from '../_shared';
+import { SearchInput } from '../_shared';
 
 import { constituencyList, mpsList } from '../../_data';
-import { LookupParams, MemberResponse } from '../../lib/members';
+import { MemberResponse } from '../../lib/members';
 
-interface MemberLookupProps {
+interface MemberLookupFormProps {
   buttonText?: string,
   callback?(mp: MemberResponse): void,
   searchBy: string,
@@ -13,7 +13,7 @@ interface MemberLookupProps {
   queryUrl?: string,
 }
 
-const MemberLookup: React.FC<MemberLookupProps> = ({
+const MemberLookupForm: React.FC<MemberLookupFormProps> = ({
   buttonText = "Find my MP",
   searchBy,
   labelText = "Search for:",
@@ -28,15 +28,14 @@ const MemberLookup: React.FC<MemberLookupProps> = ({
   const [loading, setLoading] = React.useState<boolean>(false);
   const [input, setInput] = React.useState<string>('');
 
-  const handleSumbit = async ({ url = queryUrl, searchFor }: LookupParams) => {
+  return <form className="lookup" onSubmit={async e => {
+    e.preventDefault();
     setLoading(true);
-    const mp: MemberResponse = await useLookup({ url, searchBy, searchFor });
+    const mp: MemberResponse = await useLookup({ url: queryUrl, searchBy, searchFor: input });
     if (callback) callback(mp);
     else console.log(mp);
     setLoading(false);
-  }
-
-  return <div className="lookup">
+  }}>
     <SearchInput
       value={ input }
       handleChange={ setInput }
@@ -45,14 +44,10 @@ const MemberLookup: React.FC<MemberLookupProps> = ({
       searchTerm={ searchBy }
     />
 
-    <Submit
-      text={ buttonText }
-      searchValue={ input }
-      handleSubmit={ handleSumbit }
-      queryUrl={ queryUrl }
-      isDisabled={ input.length === 0 || loading }
-    />
-  </div>
+    <button type="submit" disabled={ input.length === 0 || loading }>
+      { buttonText }
+    </button>
+  </form>
 }
 
-export default MemberLookup;
+export default MemberLookupForm;
