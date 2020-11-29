@@ -1,28 +1,6 @@
 import * as React from 'react';
-import { MemberResponse, MemberContact } from '../../lib/members';
-
-/**
- * ----------
- * CONTACT LINK
- * ----------
- */
-interface ContactLinkProps {
-  linkObject: MemberContact
-}
-
-const ContactLink: React.FC<ContactLinkProps> = ({ linkObject }) => {
-  const href: string|null = linkObject.email ? `mailto:${linkObject.email}` :
-    linkObject.isWebAddress === true ? linkObject.line1 : null;
-  
-  return href !== null ? (
-    <a
-      className="member-card__links-container--link ith--member-card__links-container--link"
-      href={ href }
-    >
-      { linkObject.type }
-    </a>
-  ) : null;
-}
+import { ContactLink } from '../_shared';
+import { MemberResponse } from '../../lib/members';
 
 /**
  * ----------
