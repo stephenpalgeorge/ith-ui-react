@@ -26,7 +26,7 @@ const MemberLookup: React.FC<MemberLookupProps> = ({
   }
 
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [input, setInput] = React.useState<string>('');
+  const [inputValue, setInputValue] = React.useState<string>('');
 
   const handleSumbit = async ({ url = queryUrl, searchFor }: LookupParams) => {
     setLoading(true);
@@ -36,10 +36,10 @@ const MemberLookup: React.FC<MemberLookupProps> = ({
     setLoading(false);
   }
 
-  return <div className="lookup">
+  return <div className="member-lookup ith--member-lookup">
     <SearchInput
-      value={ input }
-      handleChange={ setInput }
+      value={ inputValue }
+      handleChange={ setInputValue }
       labelText={ labelText }
       list={ lists[searchBy] }
       searchTerm={ searchBy }
@@ -47,10 +47,10 @@ const MemberLookup: React.FC<MemberLookupProps> = ({
 
     <Submit
       text={ buttonText }
-      searchValue={ input }
+      searchValue={ inputValue }
       handleSubmit={ handleSumbit }
       queryUrl={ queryUrl }
-      isDisabled={ input.length === 0 || loading }
+      isDisabled={ inputValue.length === 0 || loading }
     />
   </div>
 }

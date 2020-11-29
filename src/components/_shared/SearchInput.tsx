@@ -28,14 +28,15 @@ export const SearchInput = ({ value, handleChange, searchTerm, list = [], labelT
   }
 
   return (
-    <div className="input-wrapper">
-      <label htmlFor="lookup--search-term">
+    <div className="ith--search-input">
+      <label htmlFor="ith--search-input__input" className="ith--search-input__label">
         { labelText }
       </label>
       <input
+        className="ith--search-input__input"
         list="search-input--list"
         name="search-term"
-        id="lookup--search-term"
+        id="lookup--search-input__input"
         value={ value }
         onChange={ ({target}) => handleChange(target.value) }
         placeholder={ placeholderText }
@@ -43,7 +44,7 @@ export const SearchInput = ({ value, handleChange, searchTerm, list = [], labelT
 
       {
         list.length > 0 &&
-        <datalist id="search-input--list">
+        <datalist id="ith--search-input__data-list">
           { list.map(it => <option key={it} value={it} />) }
         </datalist>
       }

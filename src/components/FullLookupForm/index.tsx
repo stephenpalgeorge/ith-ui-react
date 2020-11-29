@@ -7,7 +7,7 @@ import { constituencyList, mpsList } from '../../_data';
 
 interface FullLookupFormProps {
   buttonText? : string,
-  inputLabel?: string,
+  inputValueLabel?: string,
   selectLabel?: string,
   queryUrl?: string,
   callback?(mp: Member): void
@@ -16,7 +16,7 @@ interface FullLookupFormProps {
 const FullLookupForm: React.FC<FullLookupFormProps> = ({
   buttonText = "Find my MP",
   callback,
-  inputLabel = 'Search for:',
+  inputValueLabel = 'Search for:',
   selectLabel = 'Search by:',
   queryUrl = 'http://localhost:4545'
 }) => {
@@ -25,30 +25,30 @@ const FullLookupForm: React.FC<FullLookupFormProps> = ({
     names: mpsList,
   }
 
-  const [input, setInput] = React.useState<string>('');
+  const [inputValue, setInputValue] = React.useState<string>('');
   const [searchBy, setSearchBy] = React.useState<string>('');
   const [loading, setLoading] = React.useState<boolean>(false);
 
 
   const options = ['constituencies', 'names', 'posts', 'postcodes'];
-  return <form onSubmit={async (e) => {
+  return <form className="full-lookup-form ith--full-lookup-form" onSubmit={async (e) => {
     e.preventDefault();
     setLoading(true);
-    const mp = await useLookup({ url: queryUrl, searchBy, searchFor: input });
+    const mp = await useLookup({ url: queryUrl, searchBy, searchFor: inputValue });
     if (callback) callback(mp);
     else console.log(mp);
     setLoading(false);
-    setInput('');
+    setInputValue('');
   }}>
     <SearchTerm labelText={ selectLabel } options={ options } handleChange={ setSearchBy } value={ searchBy } />
     <SearchInput
       searchTerm={ searchBy }
-      value={ input }
-      handleChange={ setInput }
+      value={ inputValue }
+      handleChange={ setInputValue }
       list={ lists[searchBy] }
-      labelText={ inputLabel }
+      labelText={ inputValueLabel }
     />
-    <button type="submit" disabled={ input === '' || loading }>
+    <button className="ith--full-lookup-form__submit-btn" type="submit" disabled={ inputValue === '' || loading }>
       { buttonText }
     </button>
   </form>

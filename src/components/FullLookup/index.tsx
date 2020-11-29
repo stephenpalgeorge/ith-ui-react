@@ -30,7 +30,7 @@ const FullLookup: React.FC<FullLookupProps> = ({
   }
   // controlled form variables:
   const [inputValue, setInputValue] = React.useState<string>('');
-  const [termValue, setTermValue] = React.useState<string>(options[0]);
+  const [searchBy, setSearchBy] = React.useState<string>(options[0]);
   const [loading, setLoading] = React.useState<boolean>(false);
 
   // default button click handler, will be overwritten by whatever is
@@ -44,18 +44,18 @@ const FullLookup: React.FC<FullLookupProps> = ({
     setLoading(false);
   }
 
-  return <div className="lookup">
-    <SearchTerm labelText={ selectLabel } options={options} value={termValue} handleChange={setTermValue} />
+  return <div className="full-lookup ith--full-lookup">
+    <SearchTerm labelText={ selectLabel } options={options} value={searchBy} handleChange={setSearchBy} />
     <SearchInput
       value={ inputValue }
       handleChange={ setInputValue }
-      searchTerm={ termValue }
-      list={ lists[termValue] }
+      searchTerm={ searchBy }
+      list={ lists[searchBy] }
       labelText={ inputLabel }
     />
     <Submit
       text={ buttonText }
-      searchTerm={ termValue }
+      searchTerm={ searchBy }
       searchValue={ inputValue }
       handleSubmit={ handleSubmit }
       queryUrl={ queryUrl }

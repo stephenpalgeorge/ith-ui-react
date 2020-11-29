@@ -82,6 +82,7 @@ export interface MemberContact {
 
 export interface MemberResponse extends Member {
   portraitUrl: string,
+  partyColor: string,
   Bio: MemberBio,
   Contact: MemberContact[],
   Focus: MemberFocus[],

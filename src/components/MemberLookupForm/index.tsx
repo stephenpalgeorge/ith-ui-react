@@ -27,7 +27,7 @@ const MemberLookupForm: React.FC<MemberLookupFormProps> = ({
   const [loading, setLoading] = React.useState<boolean>(false);
   const [inputValue, setInputValue] = React.useState<string>('');
 
-  return <form className="form__member-lookup" onSubmit={async e => {
+  return <form className="member-lookup-form ith--member-lookup-form" onSubmit={async e => {
     e.preventDefault();
     setLoading(true);
     const mp: MemberResponse = await useLookup({ url: queryUrl, searchBy, searchFor: inputValue });
@@ -44,7 +44,7 @@ const MemberLookupForm: React.FC<MemberLookupFormProps> = ({
       list={ lists[searchBy] }
     />
     
-    <button type="submit" disabled={ inputValue.length === 0 || loading }>
+    <button className="ith--member-lookup-form__submit-btn" type="submit" disabled={ inputValue.length === 0 || loading }>
       { buttonText }
     </button>
   </form>
