@@ -11,7 +11,7 @@ interface ContainerProps {
 }
 
 export const Container: React.FC<ContainerProps> = ({ children, variation = 'main' }) => {
-  return  variation === 'main' ? <main>{ children }</main> :
-          variation === 'section' ? <section>{ children }</section> :
-          <div>{ children }</div>;
+  return  variation === 'main' ? <main className="ith--main">{ children }</main> :
+          variation === 'section' ? <section className="ith--section">{ children }</section> :
+          <div className="ith--page ith--container">{ children }</div>;
 }
