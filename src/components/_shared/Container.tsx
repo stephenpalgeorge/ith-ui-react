@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-enum Variations {
+export enum Variations {
   main = 'main',
   section = 'section',
   div = 'div',

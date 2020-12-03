@@ -2,16 +2,23 @@ import * as React from 'react';
 import { ContactLink } from '../_shared';
 import { MemberResponse } from '../../lib/members';
 
-/**
- * ----------
- * MEMBER CARD
- * ----------
- */
 interface MemberCardProps {
+  /**
+   * an MP object returned by the API.
+   * @default {}
+   */
   mp: MemberResponse,
+  /**
+   * a boolean flag to control whether or not the image is rendered.
+   * @default true
+   */
   showImage?: boolean,
 }
 
+/**
+ * The MemberCard component provides basic markup for rendering/displaying the
+ * return value of an API call.
+ * */
 const MemberCard: React.FC<MemberCardProps> = ({ mp = {}, showImage = true}) => {
   return (mp && Object.keys(mp).length) ? <div className="member-card ith--member-card">
     {/* IMAGE */}
