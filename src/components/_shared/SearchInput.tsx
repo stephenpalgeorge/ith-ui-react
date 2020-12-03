@@ -1,14 +1,42 @@
 import * as React from 'react';
 
-interface Props {
+interface SearchInputProps {
+  /**
+   * the searchTerm prop determines how the API should be queried - it is the
+   * category in which the input value will be checked.
+   * */
   searchTerm?: string,
+  /**
+   * a controlled form field value, which is owned by the state of the parent
+   * */
   value: string,
+  /**
+   * text for the field label, the <label> tag won't render if you pass
+   * an empty string.
+   * @default 'Type your search:'
+   * */
   labelText: string,
+  /**
+   * An array of terms for the datalist tag. Datalist will not render if
+   * this list is empty.
+   * @default []
+   * */
   list?: string[],
+  /**
+   * this function should be the state setter of the parent component from
+   * the same piece of state as the value prop.
+   * @param val = the input value as the user types 
+   * */
   handleChange(val: string): void
 }
 
-export const SearchInput = ({ value, handleChange, searchTerm, list = [], labelText }: Props) => {
+export const SearchInput: React.FC<SearchInputProps> = ({
+  value,
+  handleChange,
+  searchTerm,
+  list = [],
+  labelText = "Type your search:"
+}) => {
   let placeholderText = 'e.g. ';
   switch(searchTerm) {
     case 'constituencies':
@@ -29,9 +57,12 @@ export const SearchInput = ({ value, handleChange, searchTerm, list = [], labelT
 
   return (
     <div className="ith--search-input">
-      <label htmlFor="ith--search-input__input" className="ith--search-input__label">
-        { labelText }
-      </label>
+      {
+        labelText.length > 0 &&
+        <label htmlFor="ith--search-input__input" className="ith--search-input__label">
+          { labelText }
+        </label>
+      }
       <input
         className="ith--search-input__input"
         list="search-input--list"
