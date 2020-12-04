@@ -19,6 +19,11 @@ interface PageHeaderProps {
    * */
   contactLinks: MemberContact[] | undefined,
   /**
+   * the location of the image - in the page, we use the portrait rather than
+   * the thumbnail that was used in the MemberCard component.
+   * */
+  imageUrl: string | undefined,
+  /**
    * the name of the member of parliament returned from the API
    * */
   memberName: string | undefined,
@@ -40,13 +45,14 @@ interface PageHeaderProps {
 const PageHeader: React.FC<PageHeaderProps> = ({
   constituencyName,
   contactLinks,
+  imageUrl,
   memberName,
   memberSynopsis,
   partyName,
 }) => {
   return <header className="ith--member-page__header">
     <div className="ith--member-page__header-image-container">
-
+      { imageUrl && <img src={imageUrl} alt={`portrait of ${ memberName }`} /> }
     </div>
 
     <div className="ith--member-page__header-text-container">
@@ -60,7 +66,14 @@ const PageHeader: React.FC<PageHeaderProps> = ({
       {
         (contactLinks && contactLinks.length > 0) &&
         <ul>
-          { contactLinks.map(l => <li key={ l.type }><ContactLink linkObject={ l } /></li>) }
+          { contactLinks.filter(l => {
+              const href: string|null = l.email ? `mailto:${l.email}` :
+              l.isWebAddress === true ? l.line1 : null;
+              return href !== null;
+            }).map(l => {
+              return <li key={ l.type }><ContactLink linkObject={ l } /></li>;
+            })
+          }
         </ul>
       }
     </div>
@@ -132,7 +145,7 @@ interface MemberPageProps {
    * A string that describes the markup that should be used for the container.
    * If this is undefined, the Container components default of 'main' will be used.
    * */
-  variation: Variations | undefined,
+  variation?: Variations | undefined,
 }
 
 /**
@@ -145,6 +158,7 @@ const MemberPage: React.FC<MemberPageProps> = ({ mp = {}, variation }) => {
     <PageHeader
       constituencyName={ mp.latestHouseMembership && mp.latestHouseMembership.membershipFrom }
       contactLinks={ mp.Contact }
+      imageUrl={ mp.portraitUrl }
       memberName={ mp.nameFullTitle }
       memberSynopsis={ mp.Synopsis }
       partyName={ mp.latestParty && mp.latestParty.name }

@@ -39,7 +39,7 @@ const List: React.FC<ListProps> = ({ titleText, listItems }) => {
     <h2>{ titleText }</h2>
     <ul>
       {
-        listItems.map(item => <ListItem {...item} />)
+        listItems.map(item => <ListItem key={ item.id } {...item} />)
       }
     </ul>
   </div> : null;
