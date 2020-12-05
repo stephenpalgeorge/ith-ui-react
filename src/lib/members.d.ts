@@ -88,3 +88,5 @@ export interface MemberResponse extends Member {
   Focus: MemberFocus[],
   Synopsis: string,
 }
+
+export type MemberLookupReturn = MemberResponse|MemberResponse[];

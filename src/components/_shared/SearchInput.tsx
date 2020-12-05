@@ -51,8 +51,10 @@ export const SearchInput: React.FC<SearchInputProps> = ({
     case 'postcodes':
       placeholderText += "TW15 1LW";
       break;
+    case 'search':
+      placeholderText += "Stephen";
     default:
-      placeholderText += "search for an MP";
+      placeholderText = "search for an MP";
   }
 
   return (

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Member } from '../../lib/members';
+import { MemberLookupReturn } from '../../lib/members';
 
 import { SearchInput, SearchTerm } from '../_shared';
 import { useLookup } from '../../hooks';
@@ -34,7 +34,7 @@ interface FullLookupFormProps {
    * to then use the response however/wherever they want.
    * @param mp - an object from the API
    * */
-  callback?(mp: Member): void
+  callback?(mp: MemberLookupReturn): void
 }
 
 /**
@@ -64,7 +64,7 @@ const FullLookupForm: React.FC<FullLookupFormProps> = ({
   return <form className="full-lookup-form ith--full-lookup-form" onSubmit={async (e) => {
     e.preventDefault();
     setLoading(true);
-    const mp = await useLookup({ url: queryUrl, searchBy, searchFor: inputValue });
+    const mp: MemberLookupReturn = await useLookup({ url: queryUrl, searchBy, searchFor: inputValue });
     if (callback) callback(mp);
     else console.log(mp);
     setLoading(false);

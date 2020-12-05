@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { LookupParams, MemberResponse } from '../../lib/members';
+import { LookupParams, MemberLookupReturn } from '../../lib/members';
 
 import { SearchInput, SearchTerm } from '../_shared';
 import { Submit } from '../_shared/Submit';
@@ -36,7 +36,7 @@ interface FullLookupProps {
    * to then use the response however/wherever they want.
    * @param mp - an object from the API
    * */
-  callback?(mp: MemberResponse): void,
+  callback?(mp: MemberLookupReturn): void,
 }
 
 
@@ -68,11 +68,11 @@ const FullLookup: React.FC<FullLookupProps> = ({
   // passed as the `handleLookup` prop:
   const handleSubmit = async ({ url = queryUrl, searchBy, searchFor }: LookupParams): Promise<any> => {
     setLoading(true);
-    const mp = await useLookup({ url, searchBy, searchFor });
+    const mp: MemberLookupReturn = await useLookup({ url, searchBy, searchFor });
     if (callback) callback(mp);
     console.log(mp);
-    setInputValue('');
     setLoading(false);
+    setInputValue('');
   }
 
   return <div className="full-lookup ith--full-lookup">

@@ -3,7 +3,7 @@ import { useLookup } from '../../hooks';
 import { SearchInput } from '../_shared';
 
 import { constituencyList, mpsList } from '../../_data';
-import { MemberResponse } from '../../lib/members';
+import { MemberLookupReturn } from '../../lib/members';
 
 interface MemberLookupFormProps {
   /**
@@ -17,7 +17,7 @@ interface MemberLookupFormProps {
    * however/wherever they want.
    * @param mp - the response from the API call
    * */
-  callback?(mp: MemberResponse): void,
+  callback?(mp: MemberLookupReturn): void,
   /**
    * the category in which the input value is to be checked.
    * */
@@ -60,7 +60,7 @@ const MemberLookupForm: React.FC<MemberLookupFormProps> = ({
   return <form className="member-lookup-form ith--member-lookup-form" onSubmit={async e => {
     e.preventDefault();
     setLoading(true);
-    const mp: MemberResponse = await useLookup({ url: queryUrl, searchBy, searchFor: inputValue });
+    const mp: MemberLookupReturn = await useLookup({ url: queryUrl, searchBy, searchFor: inputValue });
     if (callback) callback(mp);
     else console.log(mp);
     setLoading(false);
