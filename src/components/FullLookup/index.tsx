@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import { LookupParams, MemberLookupReturn } from '../../lib/members';
 
 import { SearchInput, SearchTerm } from '../_shared';
@@ -113,6 +114,16 @@ const FullLookup: React.FC<FullLookupProps> = ({
       />
     }
   </div>
+}
+
+FullLookup.propTypes = {
+  buttonText: PropTypes.string,
+  defaultOption: PropTypes.number,
+  inputLabel: PropTypes.string,
+  Loader: PropTypes.node,
+  selectLabel: PropTypes.string,
+  queryUrl: PropTypes.string,
+  callback: PropTypes.func,
 }
 
 export default FullLookup;

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import { MemberLookupReturn } from '../../lib/members';
 
 import { SearchInput, SearchTerm } from '../_shared';
@@ -16,12 +17,18 @@ interface FullLookupFormProps {
    * initial value of the <select>.
    * @default 0
    * */
-  defaultOption: number,
+  defaultOption?: number,
   /**
    * text for the text-input label.
    * @default 'Search for:'
    * */
-  inputValueLabel?: string,
+  inputLabel?: string,
+  /**
+   * A react component that will display when the loading state === true and
+   * replace the submit button. If nothing is passed, the component will default
+   * to a simple spinner.
+   * */
+  Loader?: React.ReactNode,
   /**
    * text for the select input label.
    * @default 'Search by:'
@@ -53,7 +60,8 @@ const FullLookupForm: React.FC<FullLookupFormProps> = ({
   buttonText = "Find my MP",
   callback,
   defaultOption = 0,
-  inputValueLabel = 'Search for:',
+  inputLabel = 'Search for:',
+  Loader,
   selectLabel = 'Search by:',
   queryUrl = 'http://localhost:4545'
 }) => {
@@ -68,7 +76,7 @@ const FullLookupForm: React.FC<FullLookupFormProps> = ({
   const [loading, setLoading] = React.useState<boolean>(false);
 
 
-  return <form className="full-lookup-form ith--full-lookup-form" onSubmit={async (e) => {
+  return <form data-testid="full-lookup-form--root" className="full-lookup-form ith--full-lookup-form" onSubmit={async (e) => {
     e.preventDefault();
     const type = inputValue.indexOf(',') >= 0 ? 'list' : 'single';
     setLoading(true);
@@ -84,12 +92,27 @@ const FullLookupForm: React.FC<FullLookupFormProps> = ({
       value={ inputValue }
       handleChange={ setInputValue }
       list={ lists[searchBy] }
-      labelText={ inputValueLabel }
+      labelText={ inputLabel }
     />
-    <button className="ith--full-lookup-form__submit-btn" type="submit" disabled={ inputValue === '' || loading }>
-      { buttonText }
-    </button>
+    { (Loader && loading) && Loader }
+    { (!Loader && loading) && <div className="loader">Loading...</div>}
+    {
+      !loading &&
+      <button className="ith--full-lookup-form__submit-btn" type="submit" disabled={ inputValue === '' || loading }>
+        { buttonText }
+      </button>
+    }
   </form>
+}
+
+FullLookupForm.propTypes = {
+  buttonText: PropTypes.string,
+  defaultOption: PropTypes.number,
+  inputLabel: PropTypes.string,
+  Loader: PropTypes.node,
+  selectLabel: PropTypes.string,
+  queryUrl: PropTypes.string,
+  callback: PropTypes.func,
 }
 
 export default FullLookupForm;
