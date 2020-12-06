@@ -49,10 +49,6 @@ const MemberCard: React.FC<MemberCardProps> = ({ mp = {}, showImage = true}) => 
         mp.Contact.map(l => <li key={ l.type }><ContactLink linkObject={ l } /></li>)
       }
     </ul>
-
-    <pre>
-      {JSON.stringify(mp, null, 2)}
-    </pre>
   </div> : null;
 }
 

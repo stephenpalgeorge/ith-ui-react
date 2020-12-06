@@ -59,8 +59,9 @@ const MemberLookupForm: React.FC<MemberLookupFormProps> = ({
 
   return <form className="member-lookup-form ith--member-lookup-form" onSubmit={async e => {
     e.preventDefault();
+    const type = inputValue.indexOf(',') >= 0 ? 'list' : 'single';
     setLoading(true);
-    const mp: MemberLookupReturn = await useLookup({ url: queryUrl, searchBy, searchFor: inputValue });
+    const mp: MemberLookupReturn = await useLookup({ url: queryUrl, searchBy, searchFor: inputValue, type });
     if (callback) callback(mp);
     else console.log(mp);
     setLoading(false);

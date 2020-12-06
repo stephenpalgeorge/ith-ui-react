@@ -2,6 +2,7 @@ export interface LookupParams {
   url?: string,
   searchBy?: string,
   searchFor: string,
+  type: 'single'|'list',
 }
 
 export interface Info {
@@ -89,4 +90,4 @@ export interface MemberResponse extends Member {
   Synopsis: string,
 }
 
-export type MemberLookupReturn = MemberResponse|MemberResponse[];
+export type MemberLookupReturn = MemberResponse|MemberResponse[]|undefined;

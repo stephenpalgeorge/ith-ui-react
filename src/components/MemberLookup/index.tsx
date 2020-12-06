@@ -59,8 +59,9 @@ const MemberLookup: React.FC<MemberLookupProps> = ({
   const [inputValue, setInputValue] = React.useState<string>('');
 
   const handleSumbit = async ({ url = queryUrl, searchFor }: LookupParams) => {
+    const type = searchFor.indexOf(',') >= 0 ? 'list' : 'single';
     setLoading(true);
-    const mp: MemberLookupReturn = await useLookup({ url, searchBy, searchFor });
+    const mp: MemberLookupReturn = await useLookup({ url, searchBy, searchFor, type });
     if (callback) callback(mp);
     else console.log(mp);
     setLoading(false);

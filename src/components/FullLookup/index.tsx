@@ -54,7 +54,7 @@ const FullLookup: React.FC<FullLookupProps> = ({
   queryUrl = 'http://localhost:4545'
 }) => {
   // the different types of search that can be performed:
-  const options = ['constituencies', 'names', 'posts', 'postcodes'];
+  const options = ['constituencies', 'names', 'posts', 'postcodes', 'search'];
   const lists = {
     constituencies: constituencyList,
     names: mpsList,
@@ -67,8 +67,9 @@ const FullLookup: React.FC<FullLookupProps> = ({
   // default button click handler, will be overwritten by whatever is
   // passed as the `handleLookup` prop:
   const handleSubmit = async ({ url = queryUrl, searchBy, searchFor }: LookupParams): Promise<any> => {
+    const type = searchFor.indexOf(',') >= 0 ? 'list' : 'single';
     setLoading(true);
-    const mp: MemberLookupReturn = await useLookup({ url, searchBy, searchFor });
+    const mp: MemberLookupReturn = await useLookup({ url, searchBy, searchFor, type });
     if (callback) callback(mp);
     console.log(mp);
     setLoading(false);
