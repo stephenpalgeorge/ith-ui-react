@@ -24,6 +24,7 @@ export const ContactLink: React.FC<ContactLinkProps> = ({ linkObject }) => {
   return href !== null ? (
     <a
       className="member-card__links-container--link ith--member-card__links-container--link"
+      data-testid="contact-link--root"
       href={ href }
       target="_blank"
     >
