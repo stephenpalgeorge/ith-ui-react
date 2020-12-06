@@ -80,8 +80,8 @@ const FullLookup: React.FC<FullLookupProps> = ({
 
   // default button click handler, will be overwritten by whatever is
   // passed as the `handleLookup` prop:
-  const handleSubmit = async ({ url = queryUrl, searchBy, searchFor }: LookupParams): Promise<any> => {
-    const type = searchFor.indexOf(',') >= 0 ? 'list' : 'single';
+  const handleSubmit = async ({ url = queryUrl, searchBy, searchFor, type = 'single' }: LookupParams): Promise<any> => {
+    type = searchFor.indexOf(',') >= 0 ? 'list' : 'single';
     setLoading(true);
     const mp: MemberLookupReturn = await useLookup({ url, searchBy, searchFor, type });
     if (callback) callback(mp);
@@ -90,7 +90,7 @@ const FullLookup: React.FC<FullLookupProps> = ({
     setInputValue('');
   }
 
-  return <div className="full-lookup ith--full-lookup">
+  return <div className="full-lookup ith--full-lookup" data-testid="full-lookup--root">
     <SearchTerm labelText={ selectLabel } options={options} value={searchBy} handleChange={setSearchBy} />
     <SearchInput
       value={ inputValue }

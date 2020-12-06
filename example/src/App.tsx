@@ -10,7 +10,7 @@ const App = () => {
     {
       Array.isArray(mpResult) ?
         <MemberCardsList members={ mpResult } /> :
-        <MemberCard mp={mpResult} />
+        <MemberCard mp={ mpResult } />
     }
   </div>;
 }
