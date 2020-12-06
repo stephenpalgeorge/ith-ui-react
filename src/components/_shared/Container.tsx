@@ -20,7 +20,7 @@ interface ContainerProps {
  * */
 export const Container: React.FC<ContainerProps> = ({ children, variation = Variations.main }) => {
   const classes: string = [`ith--${variation}`, 'ith--page', 'ith--container'].join(', ');
-  return  variation === 'main' ? <main className={classes}>{ children }</main> :
-          variation === 'section' ? <section className={classes}>{ children }</section> :
-          <div className={classes}>{ children }</div>;
+  return  variation === 'main' ? <main className={classes} data-testid="container--main">{ children }</main> :
+          variation === 'section' ? <section className={classes} data-testid="container--section">{ children }</section> :
+          <div className={classes} data-testid="container--div">{ children }</div>;
 }

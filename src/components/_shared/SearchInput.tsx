@@ -15,7 +15,7 @@ interface SearchInputProps {
    * an empty string.
    * @default 'Type your search:'
    * */
-  labelText: string,
+  labelText?: string,
   /**
    * An array of terms for the datalist tag. Datalist will not render if
    * this list is empty.
@@ -58,7 +58,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
   }
 
   return (
-    <div className="ith--search-input">
+    <div className="ith--search-input" data-testid="search-input--root">
       {
         labelText.length > 0 &&
         <label htmlFor="ith--search-input__input" className="ith--search-input__label">
@@ -78,8 +78,8 @@ export const SearchInput: React.FC<SearchInputProps> = ({
 
       {
         list.length > 0 &&
-        <datalist id="ith--search-input__data-list">
-          { list.map(it => <option key={it} value={it} />) }
+        <datalist id="ith--search-input__data-list" data-testid={`search-input--datalist-${searchTerm||'custom'}`}>
+          { list.map(it => <option data-testid="search-input--option" key={it} value={it} />) }
         </datalist>
       }
     </div>
