@@ -14,10 +14,22 @@ interface FullLookupProps {
    * */
   buttonText?: string,
   /**
+   * an index that selects the 'option' to be used as the initial
+   * value of the <select>.
+   * @default 0
+   * */
+  defaultOption?: number,
+  /**
    * text for the text-input label.
    * @default 'Search for:'
    * */
   inputLabel?: string,
+  /**
+   * A react component that will display when the loading state === true and
+   * replace the submit button. If nothing is passed, the component will default
+   * to a simple spinner.
+   * */
+  Loader?: React.ReactNode,
   /**
    * text for the select input label.
    * @default 'Search in:'
@@ -49,7 +61,9 @@ interface FullLookupProps {
 const FullLookup: React.FC<FullLookupProps> = ({
   buttonText = 'Find your MP',
   callback,
+  defaultOption = 0,
   inputLabel = 'Search for:',
+  Loader,
   selectLabel = 'Search in:',
   queryUrl = 'http://localhost:4545'
 }) => {
@@ -61,7 +75,7 @@ const FullLookup: React.FC<FullLookupProps> = ({
   }
   // controlled form variables:
   const [inputValue, setInputValue] = React.useState<string>('');
-  const [searchBy, setSearchBy] = React.useState<string>(options[0]);
+  const [searchBy, setSearchBy] = React.useState<string>(options[defaultOption]||options[0]);
   const [loading, setLoading] = React.useState<boolean>(false);
 
   // default button click handler, will be overwritten by whatever is
@@ -85,14 +99,25 @@ const FullLookup: React.FC<FullLookupProps> = ({
       list={ lists[searchBy] }
       labelText={ inputLabel }
     />
-    <Submit
-      text={ buttonText }
-      searchTerm={ searchBy }
-      searchValue={ inputValue }
-      handleSubmit={ handleSubmit }
-      queryUrl={ queryUrl }
-      isDisabled={ inputValue === '' || loading }
-    />
+    {
+      (Loader && loading) &&
+      Loader
+    }
+    {
+      (!Loader && loading) &&
+      <div className="loader">Loading...</div>
+    }
+    {
+      !loading &&
+      <Submit
+        text={ buttonText }
+        searchTerm={ searchBy }
+        searchValue={ inputValue }
+        handleSubmit={ handleSubmit }
+        queryUrl={ queryUrl }
+        isDisabled={ inputValue === '' || loading }
+      />
+    }
   </div>
 }
 

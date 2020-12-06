@@ -12,6 +12,12 @@ interface FullLookupFormProps {
    * */
   buttonText? : string,
   /**
+   * an index number that describes the the option to be used as the
+   * initial value of the <select>.
+   * @default 0
+   * */
+  defaultOption: number,
+  /**
    * text for the text-input label.
    * @default 'Search for:'
    * */
@@ -46,6 +52,7 @@ interface FullLookupFormProps {
 const FullLookupForm: React.FC<FullLookupFormProps> = ({
   buttonText = "Find my MP",
   callback,
+  defaultOption = 0,
   inputValueLabel = 'Search for:',
   selectLabel = 'Search by:',
   queryUrl = 'http://localhost:4545'
@@ -54,13 +61,13 @@ const FullLookupForm: React.FC<FullLookupFormProps> = ({
     constituencies: constituencyList,
     names: mpsList,
   }
+  const options = ['constituencies', 'names', 'posts', 'postcodes', 'search'];
 
   const [inputValue, setInputValue] = React.useState<string>('');
-  const [searchBy, setSearchBy] = React.useState<string>('');
+  const [searchBy, setSearchBy] = React.useState<string>(options[defaultOption]||options[0]);
   const [loading, setLoading] = React.useState<boolean>(false);
 
 
-  const options = ['constituencies', 'names', 'posts', 'postcodes'];
   return <form className="full-lookup-form ith--full-lookup-form" onSubmit={async (e) => {
     e.preventDefault();
     const type = inputValue.indexOf(',') >= 0 ? 'list' : 'single';

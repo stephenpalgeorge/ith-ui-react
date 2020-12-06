@@ -44,9 +44,13 @@ const MemberCard: React.FC<MemberCardProps> = ({ mp = {}, showImage = true}) => 
 
     {/* LINKS */}
     <ul className="member-card__links-container ith-member-card__links-container">
-      {
-        (mp.Contact && mp.Contact.length > 0) &&
-        mp.Contact.map(l => <li key={ l.type }><ContactLink linkObject={ l } /></li>)
+      { mp.Contact && mp.Contact.filter(l => {
+          const href: string|null = l.email ? `mailto:${l.email}` :
+          l.isWebAddress === true ? l.line1 : null;
+          return href !== null;
+        }).map(l => {
+          return <li key={ l.type }><ContactLink linkObject={ l } /></li>;
+        })
       }
     </ul>
   </div> : null;
