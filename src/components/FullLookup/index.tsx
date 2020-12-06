@@ -99,14 +99,8 @@ const FullLookup: React.FC<FullLookupProps> = ({
       list={ lists[searchBy] }
       labelText={ inputLabel }
     />
-    {
-      (Loader && loading) &&
-      Loader
-    }
-    {
-      (!Loader && loading) &&
-      <div className="loader">Loading...</div>
-    }
+    { (Loader && loading) && Loader }
+    { (!Loader && loading) && <div className="loader">Loading...</div> }
     {
       !loading &&
       <Submit

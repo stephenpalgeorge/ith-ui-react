@@ -6,7 +6,7 @@ import { FullLookup, MemberCard, MemberCardsList } from 'ith-ui-react';
 const App = () => {
   const [mpResult, setMpResult] = React.useState(null);
   return <div>
-    <FullLookup buttonText="Search MPs" defaultOption={4} callback={ setMpResult } />
+    <FullLookup buttonText="Search MPs" Loader={<p>I'm loading!!</p>} defaultOption={4} callback={ setMpResult } />
     {
       Array.isArray(mpResult) ?
         <MemberCardsList members={ mpResult } /> :
