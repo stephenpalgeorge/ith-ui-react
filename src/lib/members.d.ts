@@ -2,7 +2,7 @@ export interface LookupParams {
   url?: string,
   searchBy?: string,
   searchFor: string,
-  type: 'single'|'list',
+  type?: 'single'|'list',
 }
 
 export interface Info {

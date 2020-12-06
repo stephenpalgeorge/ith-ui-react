@@ -43,6 +43,7 @@ export const Submit: React.FC<SubmitProps> = ({
 }) => {
   return (
     <button
+      data-testid="submit--button"
       disabled={ isDisabled }
       className="submit"
       onClick={ () => handleSubmit({

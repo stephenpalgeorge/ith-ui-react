@@ -35,6 +35,7 @@ export const SearchTerm: React.FC<SearchTermProps> = ({ handleChange, options = 
     <select
       className="ith--search-select__select"
       id="ith--search-select__select"
+      data-testid="search-term--select"
       value={ value }
       onChange={({target}) => handleChange(target.value)} name="search-term"
     >
