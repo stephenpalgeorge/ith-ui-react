@@ -12,23 +12,28 @@ interface SearchTermProps {
    * return `null` (and therefore not render) if the options list is empty.
    * @default []
    */
-  options: string[],
+  options?: string[],
   /**
    * Text for the input label. The <label> tag will not render if this prop is
    * an empty string.
    * */
-  labelText: string,
+  labelText?: string,
   /**
    * a controlled form field value, which is owned by the parent component's state.
    */
   value: string,
 }
 
-export const SearchTerm: React.FC<SearchTermProps> = ({ handleChange, options = [], value, labelText }) => {
-  return options.length > 0 ? <div className="ith--search-select">
+export const SearchTerm: React.FC<SearchTermProps> = ({
+  handleChange,
+  options = [],
+  value,
+  labelText = 'Search in:',
+}) => {
+  return options.length > 0 ? <div className="ith--search-select" data-testid="search-term--root">
     {
       labelText.length > 0 &&
-      <label htmlFor="ith--search-select__select" className="ith--search-select__label">
+      <label data-testid="search-term--label" htmlFor="ith--search-select__select" className="ith--search-select__label">
         { labelText }
       </label>
     }
@@ -39,7 +44,7 @@ export const SearchTerm: React.FC<SearchTermProps> = ({ handleChange, options = 
       value={ value }
       onChange={({target}) => handleChange(target.value)} name="search-term"
     >
-      { options.map(opt => <option className="ith--search-select__select--option" key={opt} value={opt}>{ opt }</option>) }
+      { options.map(opt => <option data-testid="search-term--option" className="ith--search-select__select--option" key={opt} value={opt}>{ opt }</option>) }
     </select>
   </div> : null;
 }
