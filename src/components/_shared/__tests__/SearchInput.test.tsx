@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { render } from '@testing-library/react';
-import { SearchInput } from './SearchInput';
+import { SearchInput } from '../SearchInput';
 
-import { mpsList } from '../../_data';
+import { mpsList } from '../../../_data';
 
 describe('<SearchInput />', () => {
   test('renders without crashing with default props', async () => {

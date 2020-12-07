@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from '@testing-library/react';
-import { SearchTerm } from './SearchTerm';
+import { SearchTerm } from '../SearchTerm';
 
 describe('<SearchTerm />', () => {
   test('renders without crashing with default props', async () => {

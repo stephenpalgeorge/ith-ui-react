@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from '@testing-library/react';
-import { Submit } from './Submit';
+import { Submit } from '../Submit';
 
 describe('<Submit />', () => {
   test('renders without crashing with default props', async () => {

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { render } from '@testing-library/react';
 
-import { MemberContact } from '../../lib/members';
-import { ContactLink } from './ContactLink';
+import { MemberContact } from '../../../lib/members';
+import { ContactLink } from '../ContactLink';
 
 const testContactWeb: MemberContact = {
   type: 'test',

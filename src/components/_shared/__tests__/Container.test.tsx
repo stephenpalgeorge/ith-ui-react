@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from '@testing-library/react';
-import { Container, Variations } from './Container';
+import { Container, Variations } from '../Container';
 
 describe('<Container />', () => {
   test('renders without crashing with default props', async () => {
