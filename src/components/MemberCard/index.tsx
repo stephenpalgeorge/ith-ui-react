@@ -20,11 +20,11 @@ interface MemberCardProps {
  * return value of an API call.
  * */
 const MemberCard: React.FC<MemberCardProps> = ({ mp = {}, showImage = true}) => {
-  return (mp && Object.keys(mp).length) ? <div className="member-card ith--member-card">
+  return (mp && Object.keys(mp).length) ? <div className="member-card ith--member-card" data-testid="member-card--root">
     {/* IMAGE */}
     {
       showImage &&
-      <div className="member-card__image-container ith--member-card__image-container">
+      <div className="member-card__image-container ith--member-card__image-container" data-testid="member-card--image-container">
         <img src={ mp.thumbnailUrl } alt={ `portrait photo of ${ mp.nameDisplayAs }` } />
       </div>
     }
