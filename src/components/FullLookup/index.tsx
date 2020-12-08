@@ -1,6 +1,11 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { LookupParams, MemberLookupReturn } from '../../lib/members';
+import {
+  LookupError,
+  LookupParams,
+  MemberLookupReturn,
+  UseLookupReturn,
+} from '../../lib/members';
 
 import { SearchInput, SearchTerm } from '../_shared';
 import { Submit } from '../_shared/Submit';
@@ -74,28 +79,37 @@ const FullLookup: React.FC<FullLookupProps> = ({
     constituencies: constituencyList,
     names: mpsList,
   }
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<LookupError|null>(null);
   // controlled form variables:
   const [inputValue, setInputValue] = React.useState<string>('');
   const [searchBy, setSearchBy] = React.useState<string>(options[defaultOption]||options[0]);
-  const [loading, setLoading] = React.useState<boolean>(false);
 
   // default button click handler, will be overwritten by whatever is
   // passed as the `handleLookup` prop:
   const handleSubmit = async ({ url = queryUrl, searchBy, searchFor }: LookupParams): Promise<any> => {
     const type = searchFor.indexOf(',') >= 0 ? 'list' : 'single';
     setLoading(true);
-    const mp: MemberLookupReturn = await useLookup({ url, searchBy, searchFor, type });
-    if (callback) callback(mp);
+    const [mp, err]: UseLookupReturn = await useLookup({ url, searchBy, searchFor, type });
+
+    if (err) setError(err);
+    else if ((callback && mp)) callback(mp);
     else console.log(mp);
+
     setLoading(false);
     setInputValue('');
+  }
+
+  const handleChange = (value: string): void => {
+    setInputValue(value);
+    if (error) setError(null);
   }
 
   return <div className="full-lookup ith--full-lookup" data-testid="full-lookup--root">
     <SearchTerm labelText={ selectLabel } options={options} value={searchBy} handleChange={setSearchBy} />
     <SearchInput
       value={ inputValue }
-      handleChange={ setInputValue }
+      handleChange={ handleChange }
       searchTerm={ searchBy }
       list={ lists[searchBy] }
       labelText={ inputLabel }
@@ -112,6 +126,12 @@ const FullLookup: React.FC<FullLookupProps> = ({
         queryUrl={ queryUrl }
         isDisabled={ inputValue === '' || loading }
       />
+    }
+
+    {
+      (error && error.message) && <p className="ith--lookup-error">
+        { error.message }
+      </p>
     }
   </div>
 }

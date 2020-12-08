@@ -68,7 +68,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
       <input
         className="ith--search-input__input"
         data-testid="search-input--input"
-        list="search-input--list"
+        list="ith--search-input__data-list"
         name="search-term"
         id="lookup--search-input__input"
         value={ value }

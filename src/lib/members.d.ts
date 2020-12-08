@@ -1,3 +1,9 @@
+export interface LookupError {
+  status: number,
+  type: string,
+  message: string,
+}
+
 export interface LookupParams {
   url?: string,
   searchBy?: string,
@@ -90,4 +96,5 @@ export interface MemberResponse extends Member {
   Synopsis: string,
 }
 
-export type MemberLookupReturn = MemberResponse|MemberResponse[]|undefined;
+export type MemberLookupReturn = MemberResponse|MemberResponse[]|null|undefined;
+export type UseLookupReturn = [MemberLookupReturn|null, LookupError|null];

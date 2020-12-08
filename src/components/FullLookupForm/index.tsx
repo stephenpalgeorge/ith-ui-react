@@ -1,6 +1,10 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { MemberLookupReturn } from '../../lib/members';
+import {
+  LookupError,
+  MemberLookupReturn,
+  UseLookupReturn,
+} from '../../lib/members';
 
 import { SearchInput, SearchTerm } from '../_shared';
 import { useLookup } from '../../hooks';
@@ -73,16 +77,24 @@ const FullLookupForm: React.FC<FullLookupFormProps> = ({
 
   const [inputValue, setInputValue] = React.useState<string>('');
   const [searchBy, setSearchBy] = React.useState<string>(options[defaultOption]||options[0]);
+  const [error, setError] = React.useState<LookupError|null>(null);
   const [loading, setLoading] = React.useState<boolean>(false);
 
+  const handleChange = (value: string): void => {
+    setInputValue(value);
+    if (error) setError(null);
+  }
 
   return <form data-testid="full-lookup-form--root" className="full-lookup-form ith--full-lookup-form" onSubmit={async (e) => {
     e.preventDefault();
     const type = inputValue.indexOf(',') >= 0 ? 'list' : 'single';
     setLoading(true);
-    const mp: MemberLookupReturn = await useLookup({ url: queryUrl, searchBy, searchFor: inputValue, type });
-    if (callback) callback(mp);
+    const [mp, err]: UseLookupReturn = await useLookup({ url: queryUrl, searchBy, searchFor: inputValue, type });
+
+    if (err) setError(err);
+    else if (callback && mp) callback(mp);
     else console.log(mp);
+
     setLoading(false);
     setInputValue('');
   }}>
@@ -90,7 +102,7 @@ const FullLookupForm: React.FC<FullLookupFormProps> = ({
     <SearchInput
       searchTerm={ searchBy }
       value={ inputValue }
-      handleChange={ setInputValue }
+      handleChange={ handleChange }
       list={ lists[searchBy] }
       labelText={ inputLabel }
     />
@@ -101,6 +113,12 @@ const FullLookupForm: React.FC<FullLookupFormProps> = ({
       <button className="ith--full-lookup-form__submit-btn" type="submit" disabled={ inputValue === '' || loading }>
         { buttonText }
       </button>
+    }
+
+    {
+      error && <p className="ith--lookup-error">
+        { error.message }
+      </p>
     }
   </form>
 }

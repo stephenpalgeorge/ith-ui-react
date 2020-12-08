@@ -3,7 +3,11 @@ import { useLookup } from '../../hooks';
 import { SearchInput } from '../_shared';
 
 import { constituencyList, mpsList } from '../../_data';
-import { MemberLookupReturn } from '../../lib/members';
+import {
+  LookupError,
+  MemberLookupReturn,
+  UseLookupReturn,
+} from '../../lib/members';
 
 interface MemberLookupFormProps {
   /**
@@ -28,6 +32,12 @@ interface MemberLookupFormProps {
    * */
   labelText?: string,
   /**
+   * A react component that will display when the loading state === true and
+   * replace the submit button. If nothing is passed, the component will default
+   * to a simple spinner.
+   * */
+  Loader?: React.ReactNode,
+  /**
    * the base path for the API. The only reason for providing this
    * prop is so if the API ever changes it's location/url, old versions
    * of this library can still work by passing the new url here.
@@ -48,22 +58,33 @@ const MemberLookupForm: React.FC<MemberLookupFormProps> = ({
   callback,
   searchBy,
   labelText = "Search for:",
+  Loader,
   queryUrl = "http://localhost:4545",
 }) => {
   const lists = {
     constituencies: constituencyList,
     names: mpsList,
   }
+
+  const [error, setError] = React.useState<LookupError|null>(null);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [inputValue, setInputValue] = React.useState<string>('');
+
+  const handleChange = (value: string): void => {
+    setInputValue(value);
+    if (error) setError(null);
+  }
 
   return <form className="member-lookup-form ith--member-lookup-form" onSubmit={async e => {
     e.preventDefault();
     const type = inputValue.indexOf(',') >= 0 ? 'list' : 'single';
     setLoading(true);
-    const mp: MemberLookupReturn = await useLookup({ url: queryUrl, searchBy, searchFor: inputValue, type });
-    if (callback) callback(mp);
+    const [mp, err]: UseLookupReturn = await useLookup({ url: queryUrl, searchBy, searchFor: inputValue, type });
+    
+    if (err) setError(err);
+    else if (callback && mp) callback(mp);
     else console.log(mp);
+
     setLoading(false);
     setInputValue('');
   }}>
@@ -71,13 +92,22 @@ const MemberLookupForm: React.FC<MemberLookupFormProps> = ({
       searchTerm={ searchBy }
       value={ inputValue }
       labelText={ labelText }
-      handleChange={ setInputValue }
+      handleChange={ handleChange }
       list={ lists[searchBy] }
     />
     
-    <button className="ith--member-lookup-form__submit-btn" type="submit" disabled={ inputValue.length === 0 || loading }>
-      { buttonText }
-    </button>
+    { (Loader && loading) && Loader }
+    { (!Loader && loading) && <div className="loader">Loading...</div>}
+    {
+      !loading &&
+      <button className="ith--member-lookup-form__submit-btn" type="submit" disabled={ inputValue.length === 0 || loading }>
+        { buttonText }
+      </button>
+    }
+
+    { error && <p className="ith--lookup-error">
+      { error.message }
+    </p> }
   </form>
 }
 
