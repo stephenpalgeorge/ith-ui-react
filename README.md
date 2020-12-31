@@ -19,7 +19,7 @@ The `<MemberLookup />` component renders a simple UI that includes a button that
 ```tsx
 import React from 'react'
 
-import { MemberLookup, MemberResponse } from 'ith-ui-react'
+import { MemberCard, MemberLookup, MemberResponse } from 'ith-ui-react'
 
 const App = () => {
   const [member, setMember] = React.useState<MemberResponse | null>(null)
