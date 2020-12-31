@@ -89,7 +89,7 @@ const MemberLookup: React.FC<MemberLookupProps> = ({
     if (error) setError(null);
   }
 
-  return <div className="member-lookup ith--member-lookup">
+  return <div className="member-lookup ith--member-lookup" data-testid="member-lookup--root">
     <SearchInput
       value={ inputValue }
       handleChange={ handleChange }

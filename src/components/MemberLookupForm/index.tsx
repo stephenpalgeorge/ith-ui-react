@@ -75,7 +75,7 @@ const MemberLookupForm: React.FC<MemberLookupFormProps> = ({
     if (error) setError(null);
   }
 
-  return <form className="member-lookup-form ith--member-lookup-form" onSubmit={async e => {
+  return <form className="member-lookup-form ith--member-lookup-form" data-testid="member-lookup-form--root" onSubmit={async e => {
     e.preventDefault();
     const type = inputValue.indexOf(',') >= 0 ? 'list' : 'single';
     setLoading(true);

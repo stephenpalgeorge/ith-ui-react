@@ -12,7 +12,6 @@ export const useLookup = async ({url, searchBy, searchFor, type = 'single'}: Loo
       return [data, null];
     }
   } catch (err) {
-    console.log('error:', err);
     return [null, err];
   }
 }
