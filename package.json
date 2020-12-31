@@ -1,8 +1,9 @@
 {
   "name": "ith-ui-react",
   "version": "1.0.0",
-  "description": "Made with create-react-library",
+  "description": "React UI Library for interacting with the 'In The House' API",
   "author": "stephenpalgeorge",
+  "keywords": ["react", "library", "house", "parliament", "government", "politics"],
   "license": "MIT",
   "repository": "stephenpalgeorge/ith-ui-react",
   "main": "dist/index.js",
