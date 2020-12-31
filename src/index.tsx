@@ -1,3 +1,4 @@
+// COMPONENTS
 import FullLookup from './components/FullLookup';
 import FullLookupForm from './components/FullLookupForm';
 import MemberCard from './components/MemberCard';
@@ -14,4 +15,38 @@ export {
   MemberLookup,
   MemberLookupForm,
   MemberPage,
+}
+
+// TYPES
+import {
+  LookupError,
+  LookupParams,
+  Info,
+  MemberBio,
+  MemberFocus,
+  Party,
+  Status,
+  HouseMembership,
+  Member,
+  MemberContact,
+  MemberResponse,
+  MemberLookupReturn,
+  UseLookupReturn,
+} from './lib/members';
+
+
+export type {
+  LookupError,
+  LookupParams,
+  Info,
+  MemberBio,
+  MemberFocus,
+  Party,
+  Status,
+  HouseMembership,
+  Member,
+  MemberContact,
+  MemberResponse,
+  MemberLookupReturn,
+  UseLookupReturn,
 }
